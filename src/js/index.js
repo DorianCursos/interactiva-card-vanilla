@@ -67,7 +67,7 @@ const validateName = value => {
 
 const validateNumber = value => {
   for (const number of value) {
-    if (!numbers.includes(number)) {
+    if (!numbers.includes(number) || value.length > 16) {
       return false;
     }
   }
@@ -120,8 +120,9 @@ const validateData = event => {
     }
   } else if (name === 'number') {
     isValidNumber = validateNumber(value);
+    const formatedValue = value.replace(/(.{4})/g, '$1 ');
     if (isValidNumber) {
-      writeInCard(name, value);
+      writeInCard(name, formatedValue);
     } else {
       deleteLastCharacter(event.target);
     }
