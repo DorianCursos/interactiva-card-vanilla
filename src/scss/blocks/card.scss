@@ -1,0 +1,57 @@
+.card-container {
+  position: relative;
+  height: 240px;
+  margin-bottom: 91px;
+  background-image: url(/assets/images/bg-main-mobile.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  isolation: isolate;
+}
+
+.card {
+  position: absolute;
+  width: 285px;
+  height: 156px;
+  background-size: cover;
+  padding: 17px;
+  color: #fff;
+
+  &__logo {
+    width: 54px;
+    margin-bottom: 37px;
+  }
+
+  &__number {
+    display: block;
+    margin-bottom: 17px;
+    font-size: 18px;
+    letter-spacing: 2.2px;
+  }
+
+  &__footer-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    letter-spacing: 1.29px;
+  }
+
+  &__cvc {
+    position: absolute;
+    top: 73px;
+    left: 228px;
+    font-size: 9px;
+  }
+
+  &--front {
+    top: 126px;
+    left: 17px;
+    background-image: url(../../assets/images/bg-card-front.png);
+  }
+
+  &--back {
+    top: 32px;
+    left: 73px;
+    background-image: url(../../assets/images/bg-card-back.png);
+    z-index: -1;
+  }
+}

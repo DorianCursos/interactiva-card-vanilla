@@ -2,8 +2,10 @@
 import '../scss/styles.scss';
 
 const formElement = document.getElementById('form');
-const errorElements = document.querySelectorAll('.error');
-const inputsElements = document.querySelectorAll('input[type=text]');
+const errorElements = document.querySelectorAll('.form__error');
+const inputsElements = document.querySelectorAll('.form__input');
+
+const numbers = '0123456789';
 
 const defaultValues = {
   name: 'JANE APPLESSED',
@@ -13,84 +15,143 @@ const defaultValues = {
   cvc: '000'
 };
 
-const printError = index => {
-  errorElements[index].textContent = 'VACÍO';
+const showErrorText = (index, error) => {
+  errorElements[index].textContent = error;
 };
 
-const hideError = index => {
+const hideErrorText = index => {
   errorElements[index].textContent = '';
 };
 
-const checkForm = () => {
+const setInputError = input => {
+  input.classList.add('form__input--error');
+};
+
+const hideInputError = input => {
+  input.classList.remove('form__input--error');
+};
+
+const checkFillForm = () => {
   inputsElements.forEach((input, index) => {
     if (input.value === '') {
-      index > 2 ? printError(index - 1) : printError(index);
-    } else hideError(index);
+      setInputError(input);
+      if (index > 2) {
+        showErrorText(index - 1, "Can't be blank");
+      } else {
+        showErrorText(index, "Can't be blank");
+      }
+    } else {
+      hideErrorText(index);
+      hideInputError(input);
+    }
   });
 };
 
-const validateName = event => {
-  const onlyNumbers = '0123456789';
-  const value = event.target.value;
-  let isCorrect = true;
+const deleteLastCharacter = input => {
+  input.value = input.value.substring(0, input.value.length - 1);
+};
+const writeInCard = (name, value) => {
+  const spanText = document.getElementById(`card-${name}`);
+  if (value) spanText.textContent = value;
+  else spanText.textContent = defaultValues[name];
+};
 
+const validateName = value => {
   for (const letter of value) {
-    if (onlyNumbers.includes(letter)) {
-      isCorrect = false;
+    if (numbers.includes(letter)) {
+      return false;
     }
   }
-  return isCorrect;
+  return true;
 };
 
-const validateNumber = event => {
-  const onlyNumbers = '0123456789';
-  const value = event.target.value;
-  let isCorrect = true;
-
-  for (const letter of value) {
-    if (!onlyNumbers.includes(letter)) {
-      isCorrect = false;
+const validateNumber = value => {
+  for (const number of value) {
+    if (!numbers.includes(number)) {
+      return false;
     }
   }
-  return isCorrect;
+  return true;
 };
 
-const validateMonth = event => {
-  const isValidContent = validateName(event);
-  if (isValidContent) {
-    return event.target.value.length > 2;
+const validateMonth = value => {
+  for (const number of value) {
+    if (!numbers.includes(number) || value.length > 2 || value > 12) {
+      return false;
+    }
   }
-
-  return false;
+  return true;
 };
 
-const writeInCard = event => {
-  const textCard = document.getElementById(`card-${event.target.id}`);
-  let isCorrectName;
-  let isCorrectNumber;
-  let isCorrectMonth;
-  if (event.target.id === 'name') {
-    isCorrectName = validateName(event);
-  } else if (event.target.id === 'number') {
-    isCorrectNumber = validateNumber(event);
-  } else if (event.target.id === 'month') {
-    isCorrectMonth = validateMonth(event);
+const validateYear = value => {
+  for (const number of value) {
+    if (!numbers.includes(number)) {
+      return false;
+    }
   }
+  return true;
+};
 
-  if (!isCorrectName && !isCorrectNumber && !isCorrectMonth) {
-    event.target.value = event.target.value.substring(0, event.target.value.length - 1);
+const validateCVC = value => {
+  for (const number of value) {
+    if (!numbers.includes(number) || value.length > 3) {
+      return false;
+    }
   }
+  return true;
+};
 
-  if (event.target.value === '') {
-    textCard.children[0].textContent = defaultValues[event.target.id];
-  } else {
-    textCard.children[0].textContent = event.target.value;
+const validateData = event => {
+  const name = event.target.name;
+  const value = event.target.value;
+
+  let isValidName;
+  let isValidNumber;
+  let isValidMonth;
+  let isValidYear;
+  let isValidCVC;
+
+  if (name === 'name') {
+    isValidName = validateName(value);
+    if (isValidName) {
+      writeInCard(name, value);
+    } else {
+      deleteLastCharacter(event.target);
+    }
+  } else if (name === 'number') {
+    isValidNumber = validateNumber(value);
+    if (isValidNumber) {
+      writeInCard(name, value);
+    } else {
+      deleteLastCharacter(event.target);
+    }
+  } else if (name === 'month') {
+    isValidMonth = validateMonth(value);
+    if (isValidMonth) {
+      writeInCard(name, value);
+    } else {
+      deleteLastCharacter(event.target);
+    }
+  } else if (name === 'year') {
+    isValidYear = validateYear(value);
+    if (isValidYear) {
+      writeInCard(name, value);
+    } else {
+      deleteLastCharacter(event.target);
+    }
+  } else if (name === 'cvc') {
+    isValidCVC = validateCVC(value);
+    if (isValidCVC) {
+      writeInCard(name, value);
+    } else {
+      deleteLastCharacter(event.target);
+    }
   }
 };
 
-formElement.addEventListener('input', writeInCard);
+formElement.addEventListener('input', validateData);
 
 formElement.addEventListener('submit', event => {
   event.preventDefault();
-  checkForm();
+  checkFillForm();
 });
