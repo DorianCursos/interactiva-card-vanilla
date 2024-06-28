@@ -2,7 +2,7 @@
   position: relative;
   height: 240px;
   margin-bottom: 91px;
-  background-image: url(/assets/images/bg-main-mobile.png);
+  background-image: url('/assets/images/bg-main-mobile.png');
   background-repeat: no-repeat;
   background-size: cover;
   isolation: isolate;
@@ -45,13 +45,13 @@
   &--front {
     top: 126px;
     left: 17px;
-    background-image: url(../../assets/images/bg-card-front.png);
+    background-image: url(/assets/images/bg-card-front.png);
   }
 
   &--back {
     top: 32px;
     left: 73px;
-    background-image: url(../../assets/images/bg-card-back.png);
+    background-image: url(/assets/images/bg-card-back.png);
     z-index: -1;
   }
 }
