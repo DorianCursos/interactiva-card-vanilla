@@ -9,12 +9,38 @@
     <title>Vite Template</title>
   </head>
   <body>
-    <p class="text">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit cumque, quis est culpa aspernatur reiciendis nisi
-      doloribus nostrum cum a quasi corrupti asperiores porro nam recusandae impedit quod aliquid aperiam?<span
-        >HOLA</span
-      >
-    </p>
+    <main>
+      <h2 id="card-number">Number: <span>0000 0000 0000 0000</span></h2>
+      <h2 id="card-name">Name: <span>JANE APPLESEED</span></h2>
+      <h2 id="card-month">Month: <span>00</span></h2>
+      <h2 id="card-year">Year: <span>00</span></h2>
+      <h2 id="card-cvc">CVC: <span>000</span></h2>
+
+      <form id="form">
+        <div class="form__field">
+          <label for="name">CARDHOLDER NAME</label>
+          <input type="text" id="name" name="name" />
+          <p class="error"></p>
+        </div>
+        <div class="form__field">
+          <label for="number">CARD NUMBER</label>
+          <input type="text" id="number" name="number" />
+          <p class="error"></p>
+        </div>
+        <div class="form__field">
+          <label>EXP. DATE (MM/YY)</label>
+          <input type="text" id="month" name="month" />
+          <input type="text" id="year" name="year" />
+          <p class="error"></p>
+        </div>
+        <div class="form__field">
+          <label for="cvc">CVC</label>
+          <input type="text" id="cvc" name="cvc" />
+          <p class="error"></p>
+        </div>
+        <input type="submit" value="Confirm" />
+      </form>
+    </main>
     <script type="module" src="./js/index.js"></script>
   </body>
 </html>
